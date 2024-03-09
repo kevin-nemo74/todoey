@@ -2,8 +2,16 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-class addTasks extends StatelessWidget {
-  const addTasks({super.key});
+class addTasks extends StatefulWidget {
+  void Function(dynamic)? callBack;
+  addTasks(this.callBack);
+
+  @override
+  State<addTasks> createState() => _addTasksState();
+}
+
+class _addTasksState extends State<addTasks> {
+  String? newTaskTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +38,11 @@ class addTasks extends StatelessWidget {
           TextField(
             autofocus: true,
             textAlign: TextAlign.center,
+            onChanged: (value) {
+              setState(() {
+                newTaskTitle = value;
+              });
+            },
           ),
           SizedBox(
             height: 25,
@@ -37,7 +50,9 @@ class addTasks extends StatelessWidget {
           SizedBox(
             height: 50,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                widget.callBack!(newTaskTitle);
+              },
               child: Text('Add'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.lightBlueAccent,
